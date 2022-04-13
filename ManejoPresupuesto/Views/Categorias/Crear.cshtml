@@ -1,0 +1,44 @@
+﻿@*Primero debemos indicar que modelo vamos a usar (varia segun si estamos en C R U o D)*@
+@*El modelo a usar para Crear es el de ViewModel*@
+@model CategoriaViewModel
+
+@{
+    //Para el titulo de la pestaña
+    ViewData["Title"] = "Crear Categoría";
+}
+
+@*Aqui va el codigo html para los elementos de la vista
+    Ademas cada etiqueta usa una clase que la toma de bootstrap
+    
+    Para crear la categoria usamos un formulario donde pida los campos de la tabla de la BD
+*@
+
+<h1>Crear Categoría</h1>
+<h5>La categoría nos permite indicar en qué gastamos nuestro dinero, también de donde provienen nuestros ingresos</h5>
+
+<form asp-controller="Categorias" asp-action="Crear">
+    <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
+
+    <div class="mb-3">
+        <label asp-for="Nombre" class="form-label"></label>
+        <input asp-for="Nombre" class="form-control"/>
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TipoOperacionId" class="form-label"></label>
+        <select asp-for="TipoOperacionId" asp-items="Html.GetEnumSelectList<TipoOperacion>()"
+            class="form-select"></select>
+        <span asp-validation-for="TipoOperacionId" class="text-danger"></span>
+    </div>
+
+    <button class="btn btn-primary">Enviar</button>
+    <a class="btn btn-secondary" asp-action="Index">Cancelar</a>
+
+</form>
+
+@*Sección de los Scripts*@
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />;
+}
