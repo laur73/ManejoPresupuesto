@@ -13,6 +13,7 @@ namespace ManejoPresupuesto.Servicios
         //Ctrl + . para empujar los metodos a la interfaz (esta)
         Task Crear(CategoriaViewModel categoria);
         Task<IEnumerable<CategoriaViewModel>> Obtener(int usuarioId);
+        Task<IEnumerable<CategoriaViewModel>> Obtener(int usuarioId, TipoOperacion tipoOperacionId);
         Task<CategoriaViewModel> ObtenerPorId(int id, int usuarioId);
     }
     //Heredamos de la interfaz
@@ -45,6 +46,15 @@ namespace ManejoPresupuesto.Servicios
             using var connection = new SqlConnection(connectionString);
             return await connection.QueryAsync<CategoriaViewModel>(
                 @"SELECT * FROM Categorias WHERE UsuarioId=@usuarioId", new { usuarioId });
+        }
+
+        //Metodo para listar las categorias pero con el tipo operacion
+        public async Task<IEnumerable<CategoriaViewModel>> Obtener(int usuarioId, TipoOperacion tipoOperacionId)
+        {
+            using var connection = new SqlConnection(connectionString);
+            return await connection.QueryAsync<CategoriaViewModel>(
+                @"SELECT * FROM Categorias 
+                WHERE UsuarioId=@usuarioId AND TipoOperacionId=@tipoOperacionId", new { usuarioId, tipoOperacionId });
         }
 
         //Metodos para actualizar (editar)

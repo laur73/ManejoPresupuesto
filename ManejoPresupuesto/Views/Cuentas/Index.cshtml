@@ -85,13 +85,20 @@
                             <li class="list-group-item">
                                 <span>
                                     <strong>@cuenta.Nombre</strong>
+                                    @*Boton de detalle cuenta*@
+                                    <a asp-action="Detalle" asp-route-id="@cuenta.Id" class="btn btn-success">
+                                        <i class="bi bi-info-lg"></i>
+                                        Detalle
+                                    </a>
                                     @*Boton de editar cuenta*@
                                     <a asp-action="Editar" asp-route-id="@cuenta.Id" class="btn btn-primary">
                                         <i class="bi-pencil-fill"></i>
+                                        Editar
                                     </a>
                                     @*Boton de borrar cuenta*@
                                     <a asp-action="Borrar" asp-route-id="@cuenta.Id" class="btn btn-danger">
                                         <i class="bi-trash-fill"></i>
+                                        Borrar
                                     </a>
                                 </span>
                                 <span class="@claseCuenta">@FormatearBalance(cuenta.Balance)</span>

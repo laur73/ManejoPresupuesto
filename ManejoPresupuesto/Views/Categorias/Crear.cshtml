@@ -9,7 +9,7 @@
 
 @*Aqui va el codigo html para los elementos de la vista
     Ademas cada etiqueta usa una clase que la toma de bootstrap
-    
+
     Para crear la categoria usamos un formulario donde pida los campos de la tabla de la BD
 *@
 
@@ -21,14 +21,14 @@
 
     <div class="mb-3">
         <label asp-for="Nombre" class="form-label"></label>
-        <input asp-for="Nombre" class="form-control"/>
+        <input asp-for="Nombre" class="form-control" />
         <span asp-validation-for="Nombre" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label asp-for="TipoOperacionId" class="form-label"></label>
         <select asp-for="TipoOperacionId" asp-items="Html.GetEnumSelectList<TipoOperacion>()"
-            class="form-select"></select>
+                class="form-select"></select>
         <span asp-validation-for="TipoOperacionId" class="text-danger"></span>
     </div>
 

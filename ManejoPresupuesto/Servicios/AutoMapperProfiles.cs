@@ -10,6 +10,9 @@ namespace ManejoPresupuesto.Servicios
             //De que tipo de dato a que tipo de dato vamos a mapear
             //Para este caso mapeamos desde CuentaViewModel a CuentaCreacionViewModel
             CreateMap<CuentaViewModel, CuentaCreacionViewModel>();
+
+            //El reverse map es de aqui para allá y de allá para acá
+            CreateMap<TransaccionActualizacionViewModel, TransaccionViewModel>().ReverseMap();
         }
     }
 }
