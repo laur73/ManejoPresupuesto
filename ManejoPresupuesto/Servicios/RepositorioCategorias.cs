@@ -9,10 +9,11 @@ namespace ManejoPresupuesto.Servicios
     {
         Task Actualizar(CategoriaViewModel categoria);
         Task Borrar(int id);
+        Task<int> Contar(int usuarioId);
 
         //Ctrl + . para empujar los metodos a la interfaz (esta)
         Task Crear(CategoriaViewModel categoria);
-        Task<IEnumerable<CategoriaViewModel>> Obtener(int usuarioId);
+        Task<IEnumerable<CategoriaViewModel>> Obtener(int usuarioId, PaginacionViewModel paginacion);
         Task<IEnumerable<CategoriaViewModel>> Obtener(int usuarioId, TipoOperacion tipoOperacionId);
         Task<CategoriaViewModel> ObtenerPorId(int id, int usuarioId);
     }
@@ -41,11 +42,21 @@ namespace ManejoPresupuesto.Servicios
         }
 
         //Metodo para listar las categorias
-        public async Task<IEnumerable<CategoriaViewModel>> Obtener(int usuarioId)
+        public async Task<IEnumerable<CategoriaViewModel>> Obtener(int usuarioId, PaginacionViewModel paginacion)
         {
             using var connection = new SqlConnection(connectionString);
             return await connection.QueryAsync<CategoriaViewModel>(
-                @"SELECT * FROM Categorias WHERE UsuarioId=@usuarioId", new { usuarioId });
+                @$"SELECT * FROM Categorias WHERE UsuarioId=@usuarioId
+                ORDER BY Nombre
+                OFFSET {paginacion.RegistrosASaltar} ROWS FETCH NEXT {paginacion.RegistrosPorPagina}
+                ROWS ONLY", new { usuarioId });
+        }
+
+        public async Task<int> Contar (int usuarioId)
+        {
+            using var connection = new SqlConnection(connectionString);
+            return await connection.ExecuteScalarAsync<int>(
+                "SELECT COUNT(*) FROM Categorias WHERE UsuarioId = @usuarioId", new { usuarioId });
         }
 
         //Metodo para listar las categorias pero con el tipo operacion

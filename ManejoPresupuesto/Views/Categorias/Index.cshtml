@@ -1,5 +1,7 @@
 ﻿@*El modelo a usar para el Index es el IEnumerable que recibe al ViewModel pues vamos a listar las categorias*@
-@model IEnumerable<CategoriaViewModel>
+@*model IEnumerable<CategoriaViewModel>*@
+
+@model PaginacionRespuesta<CategoriaViewModel>
 
 @{
     ViewData["Title"] = "Categorías";
@@ -11,6 +13,19 @@
 <h5>La categoría nos permite indicar en qué gastamos nuestro dinero, también de donde provienen nuestros ingresos</h5>
 
 <a asp-controller="Categorias" asp-action="Crear" class="btn btn-primary mb-3">Crear nueva</a>
+
+<div class="row">
+    <label>Cantidad de registros a mostrar:</label>
+    <div class="mb-3 col-auto">
+        <select asp-for="@Model.RegistrosPorPagina" id="cantidadRegistrosPorPagina" class="form-select">
+            <option>3</option>
+            <option>5</option>
+            <option>10</option>
+        </select>
+    </div>
+</div>
+
+<partial name="_Paginacion" />
 
 @*thead = agrupar encabezados
   tbody = cuerpo de la tabla
@@ -31,7 +46,7 @@
     </thead>
 
     <tbody>
-        @foreach(var categoria in Model)
+        @foreach(var categoria in Model.Elementos)
         {
             <tr>
                 <td>
@@ -51,3 +66,12 @@
         }
     </tbody>
 </table>
+
+@section Scripts{
+    <script>
+        $("#cantidadRegistrosPorPagina").change(function(){
+            const registrosPorPagina = $(this).val();
+            location.href=`/categorias/?pagina=1&registrosPorPagina=${registrosPorPagina}`
+        });
+    </script>
+}

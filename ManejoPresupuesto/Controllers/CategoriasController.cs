@@ -19,11 +19,21 @@ namespace ManejoPresupuesto.Controllers
         }
 
         //Método para listar las categorias
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(PaginacionViewModel paginacionViewModel)
         {
             var usuarioId = servicioUsuarios.ObtenerUsuarioId();
-            var categorias = await repositorioCategorias.Obtener(usuarioId);
-            return View(categorias);
+            var categorias = await repositorioCategorias.Obtener(usuarioId, paginacionViewModel);
+            var totalCategorias = await repositorioCategorias.Contar(usuarioId);
+
+            var respuestaVM = new PaginacionRespuesta<CategoriaViewModel>
+            {
+                Elementos = categorias,
+                Pagina = paginacionViewModel.Pagina,
+                RegistrosPorPagina = paginacionViewModel.RegistrosPorPagina,
+                CantidadTotalRegistros = totalCategorias,
+                BaseURL = Url.Action()
+            };
+            return View(respuestaVM);
         }
 
 
